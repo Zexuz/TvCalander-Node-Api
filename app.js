@@ -73,7 +73,16 @@ routerImdbService.get("/Series/:id", function (req, res) {
     });
 });
 
+routerImdbService.post("/Series", function (req, res) {
+    var body = req.body;
+    if (!(body.title && body.id)) return res.json({});
 
-var findRestaurants = function (db, callback) {
+    db.collection('imdb').findOne({_id: body.id}, function (err, item) {
+        if (item)
+            return res.json({error: new Error("Error")});
 
-};
+        db.collection('imdb').insertOne({_id: body.id, title: body.title});
+        res.json({_id: body.id, title: body.title});
+    });
+});
+
