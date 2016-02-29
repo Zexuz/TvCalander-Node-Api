@@ -45,21 +45,31 @@ MongoClient.connect("mongodb://localhost:27017/api", function (err, database) {
 
 
 routerImdbService.get("/Series", function (req, res) {
-
+    printRequestInfo(req);
     imdbService.getAllSeries(req, res);
 });
 
 
 routerImdbService.get("/Series/:id", function (req, res) {
-    console.log(req.path);
+    printRequestInfo(req);
     imdbService.getSpecificSeries(req, res);
 });
 
 routerImdbService.post("/Series", function (req, res) {
+    printRequestInfo(req);
     imdbService.createSeries(req, res);
 });
 
 
 routerImdbService.put("/Series/:id", function (req, res) {
+    printRequestInfo(req);
     imdbService.updateSeries(req, res);
 });
+
+var printRequestInfo = function (req) {
+    var method = "\nMethod : " + req.method;
+    var path = "\nPath : " + req.path;
+    var payLoad = req.method === "POST" || req.method === "PUT" ? "\n Payload : " + JSON.stringify(req.body) : "";
+
+    console.log(method + path + payLoad);
+};
