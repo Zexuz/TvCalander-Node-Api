@@ -28,6 +28,8 @@ app.use('/api/ImdbService/v1/', routerImdbService);
 
 // START THE SERVER
 // =============================================================================
+var ImdbService = require("./lib/ImdbService");
+var imdbService;
 
 MongoClient.connect("mongodb://localhost:27017/api", function (err, database) {
     if (!err) {
@@ -35,7 +37,7 @@ MongoClient.connect("mongodb://localhost:27017/api", function (err, database) {
         app.listen(port);
         console.log('Magic happens on port ' + port);
         db = database;
-
+        imdbService = new ImdbService(db);
     } else {
         console.log("not connected!");
     }
@@ -43,46 +45,21 @@ MongoClient.connect("mongodb://localhost:27017/api", function (err, database) {
 
 
 routerImdbService.get("/Series", function (req, res) {
-    db.collection('imdb').find({}).toArray(function (err, items) {
 
-        var seriesArray = [];
-
-        for (var i = 0; i < items.length; i++) {
-            var currentItem = items[i];
-
-            var series = {
-                id: currentItem._id,
-                title: currentItem.title
-            };
-
-            seriesArray.push(series);
-        }
-
-
-        res.json(seriesArray);
-    });
+    imdbService.getAllSeries(req, res);
 });
 
 
 routerImdbService.get("/Series/:id", function (req, res) {
-    var id = req.params.id;
-    db.collection('imdb').findOne({_id: id}, function (err, item) {
-        if (!item)
-            item = {};
-        res.json(item);
-    });
+    console.log(req.path);
+    imdbService.getSpecificSeries(req, res);
 });
 
 routerImdbService.post("/Series", function (req, res) {
-    var body = req.body;
-    if (!(body.title && body.id)) return res.json({});
-
-    db.collection('imdb').findOne({_id: body.id}, function (err, item) {
-        if (item)
-            return res.json({error: new Error("Error")});
-
-        db.collection('imdb').insertOne({_id: body.id, title: body.title});
-        res.json({_id: body.id, title: body.title});
-    });
+    imdbService.createSeries(req, res);
 });
 
+
+routerImdbService.put("/Series/:id", function (req, res) {
+    imdbService.updateSeries(req, res);
+});
