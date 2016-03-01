@@ -9,6 +9,7 @@ var db;
 var express = require('express');        // call express
 var app = express();                 // define our app using express
 var bodyParser = require('body-parser');
+var Datejs =require("datejs");
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -72,7 +73,7 @@ var printRequestInfo = function (req) {
     var payLoad = req.method === "POST" || req.method === "PUT" ? "\n Payload : " + JSON.stringify(req.body) : "";
 
     var date = new Date();
-    var time = "\nTime " + date.getMonth() + 1 + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    var time = "\nTime : " + date.toString("u").substring(0,date.toString("u").length-1);
 
     console.log(method + path + payLoad + time);
 };
