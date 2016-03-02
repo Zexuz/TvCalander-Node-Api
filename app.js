@@ -47,12 +47,18 @@ MongoClient.connect("mongodb://localhost:27017/api", function (err, database) {
 
 routerImdbService.get("/Series", function (req, res) {
     printRequestInfo(req);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
     imdbService.getAllSeries(req, res);
 });
 
 
 routerImdbService.get("/Series/:id", function (req, res) {
     printRequestInfo(req);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
     imdbService.getSpecificSeries(req, res);
 });
 
