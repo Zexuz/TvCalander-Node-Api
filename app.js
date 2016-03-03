@@ -76,7 +76,7 @@ routerImdbService.put("/Series/:id", function (req, res) {
 var printRequestInfo = function (req) {
     var method = "\nMethod : " + req.method;
     var path = "\nPath : " + req.path;
-    var payLoad = req.method === "POST" || req.method === "PUT" ? "\n Payload : " + JSON.stringify(req.body) : "";
+    var payLoad = req.method === "POST" || req.method === "PUT" ? "\n Payload : YES!" : "";
 
     var date = new Date();
     var time = "\nTime : " + date.toString("u").substring(0,date.toString("u").length-1);
