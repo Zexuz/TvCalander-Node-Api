@@ -78,6 +78,11 @@ routerImdbService.get("/Info", function (req, res) {
     imdbService.getInfo(req, res);
 });
 
+routerImdbService.post("/Info", function (req, res) {
+    printRequestInfo(req);
+    imdbService.editInfo(req, res);
+});
+
 
 
 var printRequestInfo = function (req) {
