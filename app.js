@@ -73,6 +73,13 @@ routerImdbService.put("/Series/:id", function (req, res) {
     imdbService.updateSeries(req, res);
 });
 
+routerImdbService.get("/Info", function (req, res) {
+    printRequestInfo(req);
+    imdbService.getInfo(req, res);
+});
+
+
+
 var printRequestInfo = function (req) {
     var method = "\nMethod : " + req.method;
     var path = "\nPath : " + req.path;
